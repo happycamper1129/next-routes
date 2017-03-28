@@ -31,12 +31,12 @@
     "path-to-regexp": "^1.7.0"
   },
   "peerDependencies": {
-    "next": "^2.0.0-beta",
+    "next": "^2.0.0",
     "react": "^15.4.2"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
-    "babel-eslint": "^7.2.0",
+    "babel-eslint": "^7.2.1",
     "babel-plugin-transform-object-rest-spread": "^6.22.0",
     "babel-preset-latest": "^6.24.0",
     "babel-preset-react": "^6.22.0",

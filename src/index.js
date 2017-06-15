@@ -4,7 +4,6 @@ import {parse} from 'url'
 import NextLink from 'next/link'
 import NextRouter from 'next/router'
 import find from 'array-find'
-import includes from 'array-includes'
 
 module.exports = opts => new Routes(opts)
 
@@ -16,9 +15,6 @@ class Routes {
     this.routes = []
     this.Link = this.getLink(Link)
     this.Router = this.getRouter(Router)
-    this.options = {
-      routeFound: null
-    }
   }
 
   add (...args) {
@@ -40,9 +36,8 @@ class Routes {
     return {route, params}
   }
 
-  getRequestHandler (app, options = {}) {
+  getRequestHandler (app) {
     const nextHandler = app.getRequestHandler()
-    this.options = Object.assign({}, this.options, options)
 
     return (req, res) => {
       const parsedUrl = parse(req.url, true)
@@ -50,11 +45,7 @@ class Routes {
       const {route, params} = this.match(pathname)
 
       if (route) {
-        if (this.options.routeFound && typeof this.options.routeFound === 'function') {
-          this.options.routeFound(req, res, route.page, {...query, ...params})
-        } else {
-          app.render(req, res, route.page, {...query, ...params})
-        }
+        app.render(req, res, route.page, {...query, ...params})
       } else {
         nextHandler(req, res, parsedUrl)
       }
@@ -124,7 +115,7 @@ class Route {
   getAs (params = {}) {
     const as = this.toPath(params)
     const keys = Object.keys(params)
-    const qsKeys = keys.filter(key => !includes(this.keyNames, key))
+    const qsKeys = keys.filter(key => this.keyNames.indexOf(key) === -1)
 
     if (!qsKeys.length) return as
 

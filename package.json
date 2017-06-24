@@ -1,6 +1,6 @@
 {
   "name": "next-routes",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "description": "Universal named routes for next.js",
   "repository": "fridays/next-routes",
   "main": "dist/index.js",
@@ -28,8 +28,6 @@
   "author": "fridays",
   "license": "MIT",
   "dependencies": {
-    "array-find": "^1.0.0",
-    "array-includes": "^3.0.3",
     "path-to-regexp": "^1.7.0"
   },
   "peerDependencies": {
@@ -39,9 +37,8 @@
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-eslint": "^7.2.3",
-    "babel-plugin-transform-object-rest-spread": "^6.22.0",
-    "babel-preset-latest": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
+    "babel-preset-env": "^1.5.2",
+    "next": "^2.4.4",
     "pre-commit": "^1.2.2",
     "standard": "^10.0.2"
   }

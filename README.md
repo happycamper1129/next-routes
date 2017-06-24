@@ -1,6 +1,6 @@
 # Named routes for next.js
 
-[![Build Status](https://travis-ci.org/fridays/next-routes.svg?branch=master)](https://travis-ci.org/fridays/next-routes) [![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&type=6&v=1.0.28&x2=0)](https://www.npmjs.com/package/next-routes) [![Greenkeeper badge](https://badges.greenkeeper.io/fridays/next-routes.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/fridays/next-routes.svg?branch=master)](https://travis-ci.org/fridays/next-routes) [![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&type=6&v=1.0.27&x2=0)](https://www.npmjs.com/package/next-routes) [![Greenkeeper badge](https://badges.greenkeeper.io/fridays/next-routes.svg)](https://greenkeeper.io/)
 
 Easy to use universal named routes for [next.js](https://github.com/zeit/next.js)
 
@@ -68,6 +68,12 @@ app.prepare().then(() => {
   createServer(handler).listen(3000)
 })
 
+```
+Optionally you can pass a custom handler, for example:
+```javascript
+const handler = routes.getRequestHandler(app, ({req, res, route, query}) => {
+  app.render(req, res, route.page, query)
+})
 ```
 
 ### On the client

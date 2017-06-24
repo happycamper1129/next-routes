@@ -3,6 +3,8 @@ import React from 'react'
 import {parse} from 'url'
 import NextLink from 'next/link'
 import NextRouter from 'next/router'
+import find from 'array-find'
+import includes from 'array-includes'
 
 module.exports = opts => new Routes(opts)
 
@@ -22,7 +24,7 @@ class Routes {
   }
 
   findByName (name) {
-    const route = this.routes.filter(route => route.name === name)[0]
+    const route = find(this.routes, route => route.name === name)
     if (!route) {
       throw new Error(`Unknown route: ${name}`)
     }
@@ -31,13 +33,11 @@ class Routes {
 
   match (path) {
     let params
-    const route = this.routes.filter(
-      route => (params = params || route.match(path))
-    )[0]
+    const route = find(this.routes, route => (params = route.match(path)))
     return {route, params}
   }
 
-  getRequestHandler (app) {
+  getRequestHandler (app, customHandler) {
     const nextHandler = app.getRequestHandler()
 
     return (req, res) => {
@@ -46,7 +46,13 @@ class Routes {
       const {route, params} = this.match(pathname)
 
       if (route) {
-        app.render(req, res, route.page, {...query, ...params})
+        Object.assign(query, params)
+
+        if (customHandler) {
+          customHandler({req, res, route, query})
+        } else {
+          app.render(req, res, route.page, query)
+        }
       } else {
         nextHandler(req, res, parsedUrl)
       }
@@ -116,7 +122,7 @@ class Route {
   getAs (params = {}) {
     const as = this.toPath(params)
     const keys = Object.keys(params)
-    const qsKeys = keys.filter(key => this.keyNames.indexOf(key) === -1)
+    const qsKeys = keys.filter(key => !includes(this.keyNames, key))
 
     if (!qsKeys.length) return as
 
